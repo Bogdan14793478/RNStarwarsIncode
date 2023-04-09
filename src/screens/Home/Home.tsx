@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, Alert} from 'react-native';
+import {View, Text, Image, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
@@ -15,8 +15,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../hooks';
 import {CharactersI, RootState} from '../../redux/actions/interface';
-// import {saveChooseCharacter} from '../../redux/actions/typeActionCharackters';
 import FieldCharacter from './FieldCharacter';
+import {loadNewInfo} from '../../utils/helpers';
 
 export type ParamAuthType = 'Phone number' | 'Email';
 
@@ -47,46 +47,33 @@ const Home = () => {
     }
   };
 
-  // optimise it 2 func => 1 loadNewPlanets + loadNewCharacters
-  const loadNewPlanets = () => {
-    if (nextPlanets == '') return;
-    if (nextPlanets !== null) {
-      const number = nextPlanets.split('=');
-      console.log(number, 'number');
-      dispatch(getNewPlanets(number[1]));
-    }
-    if (nextPlanets === null) {
-      Alert.alert('End list', 'You get all planets');
-    }
-  };
-
-  const isAllCharactersWithPlanet = () => {
-    for (let i = 0; i < resultsCharacters.length + 1; i++) {
-      if (
-        resultsCharacters[i]?.homeworld.length !== undefined &&
-        resultsCharacters[i]?.homeworld.length > 29
-      ) {
-        setTimeout(loadNewPlanets, 5000);
-        // loadNewPlanets();
-      }
-    }
-  };
-
   useEffect(() => {
+    if (nextPlanets === null) {
+      return;
+    }
+    function loadNew() {
+      const type = 'planet';
+      dispatch(loadNewInfo(nextPlanets, getNewPlanets, type));
+    }
+
+    const isAllCharactersWithPlanet = () => {
+      for (let i = 0; i < resultsCharacters.length + 1; i++) {
+        if (
+          resultsCharacters[i]?.homeworld.length !== undefined &&
+          resultsCharacters[i]?.homeworld.length > 29
+        ) {
+          setTimeout(loadNew, 5000);
+        }
+      }
+    };
     isAllCharactersWithPlanet();
-  }, [resultsCharacters]);
+  }, [nextPlanets]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const goToInfoCharackter = useCallback((item: CharactersI) => {
-    // const chooseCharacter = results.find(item => item.name === name);
-    // if (!chooseCharacter) {
-    //   Alert.alert('Error', 'Character not found');
-    //   return;
-    // }
-    // dispatch(saveChooseCharacter(chooseCharacter)); - choose to next, because render
     navigation.navigate('Card', {item});
   }, []);
 
@@ -106,17 +93,16 @@ const Home = () => {
   );
 
   const loadNewCharacters = () => {
-    if (next !== null) {
-      const number = next.split('=');
-      dispatch(getNewCharacters(number[1]));
-    }
-    if (next === null) {
-      Alert.alert('End list', 'You get all characters');
-    }
+    const type = 'people';
+    dispatch(loadNewInfo(next, getNewCharacters, type));
   };
 
   return (
-    <View style={[styles.container, {marginTop: insets.top}]}>
+    <View
+      style={[
+        styles.container,
+        {marginTop: insets.top, marginBottom: insets.bottom + 30},
+      ]}>
       <Image style={styles.backgroundImage} source={Droid} />
 
       <View style={styles.containerBox}>

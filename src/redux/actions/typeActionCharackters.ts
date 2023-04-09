@@ -6,6 +6,7 @@ export enum ActionTypesCharacters {
   // SAVE_CHOOSE_CHARACTER = 'SAVE_CHOOSE_CHARACTER',
   ADD_NEW_CHARACTERS = 'ADD_NEW_CHARACTERS',
   ADD_FIRSTS_PLANET = 'ADD_FIRSTS_PLANET',
+  ADD_NEW_PLANETS = 'ADD_NEW_PLANETS',
 }
 
 export type Action2<T, P> = {type: T; payload: P};
@@ -55,11 +56,21 @@ export const saveNewCharacters = (
   payload,
 });
 
+// Planets
 export type GetFirstPlanets = Action2<
   ActionTypesCharacters.ADD_FIRSTS_PLANET,
   InfoPlanets
 >;
 export const getPlanets = (payload: InfoPlanets): GetFirstPlanets => ({
   type: ActionTypesCharacters.ADD_FIRSTS_PLANET,
+  payload,
+});
+
+export type GetNewPlanetsType = Action2<
+  ActionTypesCharacters.ADD_NEW_PLANETS,
+  InfoPlanets
+>;
+export const saveNewPlanets = (payload: InfoPlanets): GetNewPlanetsType => ({
+  type: ActionTypesCharacters.ADD_NEW_PLANETS,
   payload,
 });

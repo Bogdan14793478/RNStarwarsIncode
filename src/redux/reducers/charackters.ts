@@ -130,6 +130,13 @@ export const stateInfoReducer = (
       const arr = Array.from(uniqArr);
       console.log(arr, 'arr ADD_NEW_CHARACTERS');
 
+      const changePlanetAllCharacters = arr.map(item => {
+        if (item && state.residentsHashPlanet[item.url]) {
+          item.homeworld = state.residentsHashPlanet[item.url];
+        }
+        return item;
+      });
+      console.log(changePlanetAllCharacters, 'changePlanetAllCharacters');
       // const copyResidentsHash = {...state.residentsHashPlanet};
 
       // const changePlanet = arr.map(item => {
@@ -153,18 +160,12 @@ export const stateInfoReducer = (
         ...state,
         next: action.payload.next,
         previous: action.payload.previous,
-        results: arr,
+        results: changePlanetAllCharacters,
       };
     case ActionTypesCharacters.ADD_FIRSTS_PLANET:
       const copyResults = [...state.results];
 
       const residentsHash: {[key: string]: string} = {};
-
-      // action.payload.results.forEach((result: PlanetI) => {
-      //   result.residents?.forEach((resident: string) => {
-      //     residentsHash[resident] = result.name;
-      //   });
-      // });
 
       const createHasObj = workWithHasObj(
         action.payload.results,
@@ -177,17 +178,6 @@ export const stateInfoReducer = (
         }
         return item;
       });
-      // const changePlanet = copyResults.map((item: CharactersI | undefined) => {
-      //   for (let i = 0; i < action.payload.results.length; i++) {
-      //     if (
-      //       action.payload.results[i].residents?.includes(item?.url) &&
-      //       item
-      //     ) {
-      //       item.homeworld = action.payload.results[i].name;
-      //     }
-      //     return item;
-      //   }
-      // });
       return {
         ...state,
         countPlanets: action.payload.count,
@@ -197,6 +187,21 @@ export const stateInfoReducer = (
         results: changePlanet,
         residentsHashPlanet: createHasObj,
       };
+
+    case ActionTypesCharacters.ADD_NEW_PLANETS:
+      console.log(action.payload, 'action.payload');
+      const copyHas = {...state.residentsHashPlanet};
+      const cupdateHasObj = workWithHasObj(action.payload.results, copyHas);
+      console.log(cupdateHasObj, 'cupdateHasObj');
+      return {
+        ...state,
+        residentsHashPlanet: cupdateHasObj,
+        countPlanets: action.payload.count,
+        nextPlanets: action.payload.next,
+        previousPlanets: action.payload.previous,
+        resultsPlanets: action.payload.results,
+      };
+
     default:
       return state;
   }
