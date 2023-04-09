@@ -11,7 +11,6 @@ export type InitialInfo = {
   favoriteMans: string[];
   favoriteWoman: string[];
   favoriteDroid: string[];
-  // chooseCharacter: CharactersI | null;
   countPlanets: number;
   nextPlanets: string;
   previousPlanets: null | string;
@@ -29,8 +28,6 @@ const initial: InitialInfo = {
   favoriteMans: [],
   favoriteWoman: [],
   favoriteDroid: [],
-  // chooseCharacter: null,
-  // planet
   countPlanets: 0,
   nextPlanets: '',
   previousPlanets: null,
@@ -121,14 +118,10 @@ export const stateInfoReducer = (
         };
       }
       return {...state};
-    // if i choose save info choose character in store
-    // case ActionTypesCharacters.SAVE_CHOOSE_CHARACTER:
-    //   return {...state, chooseCharacter: action.payload};
-    // load new characters
+
     case ActionTypesCharacters.ADD_NEW_CHARACTERS:
       const uniqArr = new Set([...state.results, ...action.payload.results]);
       const arr = Array.from(uniqArr);
-      console.log(arr, 'arr ADD_NEW_CHARACTERS');
 
       const changePlanetAllCharacters = arr.map(item => {
         if (item && state.residentsHashPlanet[item.url]) {
@@ -136,31 +129,13 @@ export const stateInfoReducer = (
         }
         return item;
       });
-      console.log(changePlanetAllCharacters, 'changePlanetAllCharacters');
-      // const copyResidentsHash = {...state.residentsHashPlanet};
-
-      // const changePlanet = arr.map(item => {
-      //   if (item && item?.homeworld.length < 29) {
-      //     return item;
-      //   }
-      //   if (item && copyResidentsHash[item.url]) {
-      //     item.homeworld = createHasObj[item.url];
-      //   }
-      //   if (item && !copyResidentsHash[item.url]) {
-      //     arr.forEach((result: PlanetI) => {
-      //   result.residents?.forEach((resident: string) => {
-      //     residentsHash[resident] = result.name;
-      //   });
-      // });
-      //   }
-      //   return item;
-      // });
 
       return {
         ...state,
         next: action.payload.next,
         previous: action.payload.previous,
         results: changePlanetAllCharacters,
+        // isLoad: false,
       };
     case ActionTypesCharacters.ADD_FIRSTS_PLANET:
       const copyResults = [...state.results];
@@ -189,10 +164,8 @@ export const stateInfoReducer = (
       };
 
     case ActionTypesCharacters.ADD_NEW_PLANETS:
-      console.log(action.payload, 'action.payload');
       const copyHas = {...state.residentsHashPlanet};
       const cupdateHasObj = workWithHasObj(action.payload.results, copyHas);
-      console.log(cupdateHasObj, 'cupdateHasObj');
       return {
         ...state,
         residentsHashPlanet: cupdateHasObj,
@@ -201,7 +174,9 @@ export const stateInfoReducer = (
         previousPlanets: action.payload.previous,
         resultsPlanets: action.payload.results,
       };
-
+    case ActionTypesCharacters.REMOVE_FAVORITE_CHARACTERS: {
+      return {...state, favoriteMans: [], favoriteWoman: [], favoriteDroid: []};
+    }
     default:
       return state;
   }

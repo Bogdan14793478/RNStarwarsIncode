@@ -1,4 +1,3 @@
-import {Alert} from 'react-native';
 import {PlanetI} from '../redux/actions/interface';
 
 export const workWithHasObj = (
@@ -13,15 +12,6 @@ export const workWithHasObj = (
   return obj;
 };
 
-// export const getFirstPlanets = () => {
-//     return async (dispatch: any) => {
-//       axiosInstance.get<InfoPlanets>(`/planets`).then(({data}) => {
-//         // console.log(data, 'data Planet');
-//         dispatch(getPlanets(data));
-//       });
-//     };
-//   };
-
 export const loadNewInfo = (next: string, func: any, type: string) => {
   return async (dispatch: any) => {
     if (next === '') return;
@@ -31,7 +21,6 @@ export const loadNewInfo = (next: string, func: any, type: string) => {
       dispatch(func(number[1]));
     }
     if (next === null && type === 'people') {
-      // Alert.alert('End list', 'You get all characters');
       console.log('END Characters');
     }
   };

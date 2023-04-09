@@ -4,6 +4,7 @@ import {
   getPlanets,
   saveNewCharacters,
   saveNewPlanets,
+  startLoad,
 } from '../redux/actions/typeActionCharackters';
 import {GetAllInfoRequest, InfoPlanets} from '../redux/actions/interface';
 
@@ -17,12 +18,6 @@ export function getFirstCharackters() {
     } catch (error: unknown | undefined) {
       throw new Error(String(error));
     }
-    // dispatch(actionTogleIsFetchingUser(true));
-    // axiosInstance.get<GetAllInfoRequest>('/people').then(({data}) => {
-    //   dispatch(getFirstCharacters(data));
-    //   return true;
-    // dispatch(actiongetAllUsers(data));
-    // });
   };
 }
 
@@ -39,7 +34,6 @@ export function getNewCharacters(number: string) {
 export const getFirstPlanets = () => {
   return async (dispatch: any) => {
     axiosInstance.get<InfoPlanets>(`/planets`).then(({data}) => {
-      // console.log(data, 'data Planet');
       dispatch(getPlanets(data));
     });
   };

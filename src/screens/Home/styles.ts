@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginLeft: 10,
-    // position: 'relative',
   },
   cardText: {
     fontFamily: 'Bona Nova',
@@ -67,6 +66,11 @@ const styles = StyleSheet.create({
   openInfo: {
     position: 'absolute',
     right: 20,
+  },
+  clearBtn: {
+    position: 'relative',
+    alignItems: 'flex-end',
+    margin: 6,
   },
 });
 

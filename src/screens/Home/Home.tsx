@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
@@ -17,6 +17,8 @@ import {useAppSelector} from '../../hooks';
 import {CharactersI, RootState} from '../../redux/actions/interface';
 import FieldCharacter from './FieldCharacter';
 import {loadNewInfo} from '../../utils/helpers';
+import {Loader} from '../../components/Loader/Loader';
+import {clearFavoriteCharacters} from '../../redux/actions/typeActionCharackters';
 
 export type ParamAuthType = 'Phone number' | 'Email';
 
@@ -62,7 +64,7 @@ const Home = () => {
           resultsCharacters[i]?.homeworld.length !== undefined &&
           resultsCharacters[i]?.homeworld.length > 29
         ) {
-          setTimeout(loadNew, 5000);
+          setTimeout(loadNew, 2000);
         }
       }
     };
@@ -97,6 +99,10 @@ const Home = () => {
     dispatch(loadNewInfo(next, getNewCharacters, type));
   };
 
+  const clearCounter = () => {
+    dispatch(clearFavoriteCharacters(true));
+  };
+
   return (
     <View
       style={[
@@ -114,6 +120,9 @@ const Home = () => {
           countFavorite={favoriteDroid}
         />
       </View>
+      <TouchableOpacity style={styles.clearBtn} onPress={clearCounter}>
+        <Text>Clear All Count</Text>
+      </TouchableOpacity>
       {resultsCharacters && (
         <View>
           <FlatList
@@ -126,6 +135,7 @@ const Home = () => {
           />
         </View>
       )}
+      {!resultsCharacters.length && <Loader />}
     </View>
   );
 };
