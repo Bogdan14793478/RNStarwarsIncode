@@ -58,11 +58,11 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({item, onPress}) => {
         <Text style={styles.cardText}>Name: {item.name}</Text>
         <Text style={styles.cardText}>Gender: {item.gender}</Text>
         <Text style={styles.cardText}>Home World: {item.homeworld}</Text>
-        <View style={styles.openInfo}>
-          <TouchableOpacity onPress={handleClick}>
-            <Text>show info</Text>
-          </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.openInfo}>
+        <TouchableOpacity onPress={handleClick}>
+          <Text>show info</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

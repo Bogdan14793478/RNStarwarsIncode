@@ -1,3 +1,4 @@
+import {workWithHasObj} from '../../utils/helpers';
 import {CharactersI, PlanetI} from '../actions/interface';
 import {ActionTypesCharacters} from '../actions/typeActionCharackters';
 
@@ -15,6 +16,8 @@ export type InitialInfo = {
   nextPlanets: string;
   previousPlanets: null | string;
   resultsPlanets: PlanetI[];
+  //
+  residentsHashPlanet: {[key: string]: string};
 };
 
 const initial: InitialInfo = {
@@ -32,6 +35,8 @@ const initial: InitialInfo = {
   nextPlanets: '',
   previousPlanets: null,
   resultsPlanets: [],
+  //
+  residentsHashPlanet: {},
 };
 
 export const stateInfoReducer = (
@@ -123,6 +128,27 @@ export const stateInfoReducer = (
     case ActionTypesCharacters.ADD_NEW_CHARACTERS:
       const uniqArr = new Set([...state.results, ...action.payload.results]);
       const arr = Array.from(uniqArr);
+      console.log(arr, 'arr');
+
+      // const copyResidentsHash = {...state.residentsHashPlanet};
+
+      // const changePlanet = arr.map(item => {
+      //   if (item && item?.homeworld.length < 29) {
+      //     return item;
+      //   }
+      //   if (item && copyResidentsHash[item.url]) {
+      //     item.homeworld = createHasObj[item.url];
+      //   }
+      //   if (item && !copyResidentsHash[item.url]) {
+      //     arr.forEach((result: PlanetI) => {
+      //   result.residents?.forEach((resident: string) => {
+      //     residentsHash[resident] = result.name;
+      //   });
+      // });
+      //   }
+      //   return item;
+      // });
+
       return {
         ...state,
         next: action.payload.next,
@@ -131,21 +157,38 @@ export const stateInfoReducer = (
       };
     case ActionTypesCharacters.ADD_FIRSTS_PLANET:
       const copyResults = [...state.results];
-      console.log(copyResults, '111');
-      const changePlanet = copyResults.map((item: CharactersI | undefined) => {
-        for (let i = 0; i < action.payload.results.length; i++) {
-          console.log('FOR WORK');
-          if (
-            action.payload.results[i].residents?.includes(item?.url) &&
-            item
-          ) {
-            item.homeworld = action.payload.results[i].name;
-            return item;
-          }
-          return item;
+
+      const residentsHash: {[key: string]: string} = {};
+
+      // action.payload.results.forEach((result: PlanetI) => {
+      //   result.residents?.forEach((resident: string) => {
+      //     residentsHash[resident] = result.name;
+      //   });
+      // });
+
+      const createHasObj = workWithHasObj(
+        action.payload.results,
+        residentsHash,
+      );
+      console.log(createHasObj, 'createHasObj');
+
+      const changePlanet = copyResults.map(item => {
+        if (item && residentsHash[item.url]) {
+          item.homeworld = createHasObj[item.url];
         }
+        return item;
       });
-      console.log(action.payload);
+      // const changePlanet = copyResults.map((item: CharactersI | undefined) => {
+      //   for (let i = 0; i < action.payload.results.length; i++) {
+      //     if (
+      //       action.payload.results[i].residents?.includes(item?.url) &&
+      //       item
+      //     ) {
+      //       item.homeworld = action.payload.results[i].name;
+      //     }
+      //     return item;
+      //   }
+      // });
       return {
         ...state,
         countPlanets: action.payload.countPlanets,
@@ -153,6 +196,7 @@ export const stateInfoReducer = (
         previousPlanets: action.payload.previousPlanets,
         resultsPlanets: action.payload.results,
         results: changePlanet,
+        residentsHashPlanet: createHasObj,
       };
     default:
       return state;

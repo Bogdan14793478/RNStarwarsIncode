@@ -3,6 +3,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'relative',
   },
   backgroundImage: {
     position: 'absolute',
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginBottom: 14,
-    position: 'relative',
+    // position: 'relative',
   },
   littleImg: {
     height: 40,
@@ -44,8 +45,7 @@ const styles = StyleSheet.create({
     padding: 3,
     marginHorizontal: 6,
     height: 100,
-    // position: 'relative',
-    // width: '100%',
+    position: 'relative',
   },
   likeImg: {
     width: 40,
