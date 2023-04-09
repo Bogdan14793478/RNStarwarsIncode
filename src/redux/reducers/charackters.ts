@@ -128,7 +128,7 @@ export const stateInfoReducer = (
     case ActionTypesCharacters.ADD_NEW_CHARACTERS:
       const uniqArr = new Set([...state.results, ...action.payload.results]);
       const arr = Array.from(uniqArr);
-      console.log(arr, 'arr');
+      console.log(arr, 'arr ADD_NEW_CHARACTERS');
 
       // const copyResidentsHash = {...state.residentsHashPlanet};
 
@@ -170,7 +170,6 @@ export const stateInfoReducer = (
         action.payload.results,
         residentsHash,
       );
-      console.log(createHasObj, 'createHasObj');
 
       const changePlanet = copyResults.map(item => {
         if (item && residentsHash[item.url]) {
@@ -191,9 +190,9 @@ export const stateInfoReducer = (
       // });
       return {
         ...state,
-        countPlanets: action.payload.countPlanets,
-        nextPlanets: action.payload.nextPlanets,
-        previousPlanets: action.payload.previousPlanets,
+        countPlanets: action.payload.count,
+        nextPlanets: action.payload.next,
+        previousPlanets: action.payload.previous,
         resultsPlanets: action.payload.results,
         results: changePlanet,
         residentsHashPlanet: createHasObj,

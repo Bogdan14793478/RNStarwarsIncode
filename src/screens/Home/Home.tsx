@@ -8,6 +8,7 @@ import {
   getFirstCharackters,
   getFirstPlanets,
   getNewCharacters,
+  getNewPlanets,
 } from '../../api/charackters';
 import {useNavigation} from '@react-navigation/native';
 
@@ -20,15 +21,20 @@ import FieldCharacter from './FieldCharacter';
 export type ParamAuthType = 'Phone number' | 'Email';
 
 const Home = () => {
-  console.log('Home reload');
-
   const insets = useSafeAreaInsets();
   const dispatch: any = useDispatch();
   const navigation = useNavigation();
-  const {results, favoriteMans, favoriteWoman, favoriteDroid, next} =
-    useAppSelector((state: RootState) => state.info);
+  const {
+    results: resultsCharacters,
+    favoriteMans,
+    favoriteWoman,
+    favoriteDroid,
+    next,
+    nextPlanets,
+  } = useAppSelector((state: RootState) => state.info);
 
-  console.log('results Home', results);
+  console.log('results Home', resultsCharacters);
+  console.log('nextPlanets Home', nextPlanets);
 
   const fetchData = async () => {
     try {
@@ -40,6 +46,35 @@ const Home = () => {
       throw new Error(String(error));
     }
   };
+
+  // optimise it 2 func => 1 loadNewPlanets + loadNewCharacters
+  const loadNewPlanets = () => {
+    if (nextPlanets == '') return;
+    if (nextPlanets !== null) {
+      const number = nextPlanets.split('=');
+      console.log(number, 'number');
+      dispatch(getNewPlanets(number[1]));
+    }
+    if (nextPlanets === null) {
+      Alert.alert('End list', 'You get all planets');
+    }
+  };
+
+  const isAllCharactersWithPlanet = () => {
+    for (let i = 0; i < resultsCharacters.length + 1; i++) {
+      if (
+        resultsCharacters[i]?.homeworld.length !== undefined &&
+        resultsCharacters[i]?.homeworld.length > 29
+      ) {
+        setTimeout(loadNewPlanets, 5000);
+        // loadNewPlanets();
+      }
+    }
+  };
+
+  useEffect(() => {
+    isAllCharactersWithPlanet();
+  }, [resultsCharacters]);
 
   useEffect(() => {
     fetchData();
@@ -71,8 +106,6 @@ const Home = () => {
   );
 
   const loadNewCharacters = () => {
-    console.log('Load');
-    console.log(next, 'next');
     if (next !== null) {
       const number = next.split('=');
       dispatch(getNewCharacters(number[1]));
@@ -95,10 +128,10 @@ const Home = () => {
           countFavorite={favoriteDroid}
         />
       </View>
-      {results && (
+      {resultsCharacters && (
         <View>
           <FlatList
-            data={results}
+            data={resultsCharacters}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             getItemLayout={getItemLayout}

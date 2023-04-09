@@ -43,3 +43,14 @@ export const getFirstPlanets = () => {
     });
   };
 };
+
+export function getNewPlanets(number: string) {
+  return async (dispatch: any) => {
+    axiosInstance
+      .get<InfoPlanets>(`/planets/?page=${number}`)
+      .then(({data}) => {
+        console.log('newPlanets', data);
+        // dispatch(saveNewCharacters(data));
+      });
+  };
+}
