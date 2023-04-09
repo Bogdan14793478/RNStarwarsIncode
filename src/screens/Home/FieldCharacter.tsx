@@ -1,6 +1,6 @@
-import React, {memo, useCallback} from 'react';
+import React, {memo} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {RootState} from '../../redux/actions/interface';
+import {CharactersI, RootState} from '../../redux/actions/interface';
 import {choosefavoriteDroid} from '../../redux/actions/typeActionCharackters';
 import {EmptyLike, FullLike} from '../../assets/images/light';
 
@@ -9,18 +9,11 @@ import {useAppSelector} from '../../hooks';
 import {useDispatch} from 'react-redux';
 
 interface FieldCharacterProps {
-  name: string;
-  gender: string;
-  homeworld: string;
-  onPress: (name: string) => void;
+  item: CharactersI;
+  onPress: (name: CharactersI) => void;
 }
 
-const FieldCharacter: React.FC<FieldCharacterProps> = ({
-  name,
-  gender,
-  homeworld,
-  onPress,
-}) => {
+const FieldCharacter: React.FC<FieldCharacterProps> = ({item, onPress}) => {
   console.log('FieldCharacter reload');
 
   const {favoriteMans, favoriteWoman, favoriteDroid} = useAppSelector(
@@ -28,9 +21,9 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({
   );
   const dispatch: any = useDispatch();
 
-  const chooseLikefavoriteMans = favoriteMans.includes(name);
-  const chooseLikefavoriteWoman = favoriteWoman.includes(name);
-  const chooseLikefavoriteDroid = favoriteDroid.includes(name);
+  const chooseLikefavoriteMans = favoriteMans.includes(item.name);
+  const chooseLikefavoriteWoman = favoriteWoman.includes(item.name);
+  const chooseLikefavoriteDroid = favoriteDroid.includes(item.name);
   const consistLike = () => {
     if (chooseLikefavoriteMans) {
       return true;
@@ -45,12 +38,12 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({
   };
 
   const changeLike = () => {
-    dispatch(choosefavoriteDroid({name, gender}));
+    dispatch(choosefavoriteDroid({name: item.name, gender: item.gender}));
   };
 
-  const handleClick = useCallback(() => {
-    onPress(name);
-  }, [name]);
+  const handleClick = () => {
+    onPress(item);
+  };
 
   return (
     <View style={styles.fileCharacters}>
@@ -62,9 +55,9 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({
       </TouchableOpacity>
 
       <View style={styles.cardTextContainer}>
-        <Text style={styles.cardText}>Name: {name}</Text>
-        <Text style={styles.cardText}>Gender: {gender}</Text>
-        <Text style={styles.cardText}>Home World: {homeworld}</Text>
+        <Text style={styles.cardText}>Name: {item.name}</Text>
+        <Text style={styles.cardText}>Gender: {item.gender}</Text>
+        <Text style={styles.cardText}>Home World: {item.homeworld}</Text>
         <View style={styles.openInfo}>
           <TouchableOpacity onPress={handleClick}>
             <Text>show info</Text>

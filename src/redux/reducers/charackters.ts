@@ -5,12 +5,12 @@ export type InitialInfo = {
   count: number;
   next: string;
   previous: null;
-  results: CharactersI[];
+  results: CharactersI[] | (CharactersI | undefined)[];
   isLoad: boolean;
   favoriteMans: string[];
   favoriteWoman: string[];
   favoriteDroid: string[];
-  chooseCharacter: CharactersI | null;
+  // chooseCharacter: CharactersI | null;
   countPlanets: number;
   nextPlanets: string;
   previousPlanets: null | string;
@@ -26,7 +26,7 @@ const initial: InitialInfo = {
   favoriteMans: [],
   favoriteWoman: [],
   favoriteDroid: [],
-  chooseCharacter: null,
+  // chooseCharacter: null,
   // planet
   countPlanets: 0,
   nextPlanets: '',
@@ -116,8 +116,9 @@ export const stateInfoReducer = (
         };
       }
       return {...state};
-    case ActionTypesCharacters.SAVE_CHOOSE_CHARACTER:
-      return {...state, chooseCharacter: action.payload};
+    // if i choose save info choose character in store
+    // case ActionTypesCharacters.SAVE_CHOOSE_CHARACTER:
+    //   return {...state, chooseCharacter: action.payload};
     // load new characters
     case ActionTypesCharacters.ADD_NEW_CHARACTERS:
       const uniqArr = new Set([...state.results, ...action.payload.results]);
@@ -127,6 +128,31 @@ export const stateInfoReducer = (
         next: action.payload.next,
         previous: action.payload.previous,
         results: arr,
+      };
+    case ActionTypesCharacters.ADD_FIRSTS_PLANET:
+      const copyResults = [...state.results];
+      console.log(copyResults, '111');
+      const changePlanet = copyResults.map((item: CharactersI | undefined) => {
+        for (let i = 0; i < action.payload.results.length; i++) {
+          console.log('FOR WORK');
+          if (
+            action.payload.results[i].residents?.includes(item?.url) &&
+            item
+          ) {
+            item.homeworld = action.payload.results[i].name;
+            return item;
+          }
+          return item;
+        }
+      });
+      console.log(action.payload);
+      return {
+        ...state,
+        countPlanets: action.payload.countPlanets,
+        nextPlanets: action.payload.nextPlanets,
+        previousPlanets: action.payload.previousPlanets,
+        resultsPlanets: action.payload.results,
+        results: changePlanet,
       };
     default:
       return state;

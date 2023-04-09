@@ -4,13 +4,17 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
 import styles from './styles';
-import {getFirstCharackters, getNewCharacters} from '../../api/charackters';
+import {
+  getFirstCharackters,
+  getFirstPlanets,
+  getNewCharacters,
+} from '../../api/charackters';
 import {useNavigation} from '@react-navigation/native';
 
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../hooks';
 import {CharactersI, RootState} from '../../redux/actions/interface';
-import {saveChooseCharacter} from '../../redux/actions/typeActionCharackters';
+// import {saveChooseCharacter} from '../../redux/actions/typeActionCharackters';
 import FieldCharacter from './FieldCharacter';
 
 export type ParamAuthType = 'Phone number' | 'Email';
@@ -24,37 +28,38 @@ const Home = () => {
   const {results, favoriteMans, favoriteWoman, favoriteDroid, next} =
     useAppSelector((state: RootState) => state.info);
 
-  console.log('favoriteDroid', favoriteDroid);
+  console.log('results Home', results);
+
+  const fetchData = async () => {
+    try {
+      const result = await dispatch(getFirstCharackters());
+      if (result) {
+        await dispatch(getFirstPlanets());
+      }
+    } catch (error) {
+      throw new Error(String(error));
+    }
+  };
 
   useEffect(() => {
-    console.log('UseEffect reload');
-    dispatch(getFirstCharackters());
-    // dispatch(getFirstPlanets())
-  }, [dispatch]);
+    fetchData();
+  }, []);
 
-  const renderItem = useCallback(
-    ({item}: {item: CharactersI}) => {
-      const goToInfoCharackter = (name: string) => {
-        const chooseCharacter = results.find(item => item.name === name);
-        chooseCharacter && dispatch(saveChooseCharacter(chooseCharacter));
-        chooseCharacter && navigation.navigate('Card', {name});
-        if (!chooseCharacter) {
-          Alert.alert('Error', 'Character not found');
-        }
-      };
-      return (
-        <FieldCharacter
-          homeworld={item.homeworld}
-          name={item.name}
-          gender={item.gender}
-          onPress={goToInfoCharackter}
-        />
-      );
-    },
-    [navigation, results, dispatch],
-  );
+  const goToInfoCharackter = useCallback((item: CharactersI) => {
+    // const chooseCharacter = results.find(item => item.name === name);
+    // if (!chooseCharacter) {
+    //   Alert.alert('Error', 'Character not found');
+    //   return;
+    // }
+    // dispatch(saveChooseCharacter(chooseCharacter)); - choose to next, because render
+    navigation.navigate('Card', {item});
+  }, []);
 
-  const keyExtractor = useCallback((item: CharactersI) => item.name, []);
+  const renderItem = ({item}: {item: CharactersI}) => {
+    return <FieldCharacter item={item} onPress={goToInfoCharackter} />;
+  };
+
+  const keyExtractor = (item: CharactersI) => item.name;
 
   const getItemLayout = useCallback(
     (data: CharactersI[] | null | undefined, index: number) => ({

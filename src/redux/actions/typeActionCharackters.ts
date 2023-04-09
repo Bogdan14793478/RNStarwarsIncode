@@ -1,10 +1,11 @@
-import {GetAllInfoRequest} from './interface';
+import {GetAllInfoRequest, InfoPlanets} from './interface';
 
 export enum ActionTypesCharacters {
   GET_FIRST_CHARACTERS = 'GET_FIRST_CHARACTERS',
   FAVORITE = 'FAVORITE',
-  SAVE_CHOOSE_CHARACTER = 'SAVE_CHOOSE_CHARACTER',
+  // SAVE_CHOOSE_CHARACTER = 'SAVE_CHOOSE_CHARACTER',
   ADD_NEW_CHARACTERS = 'ADD_NEW_CHARACTERS',
+  ADD_FIRSTS_PLANET = 'ADD_FIRSTS_PLANET',
 }
 
 export type Action2<T, P> = {type: T; payload: P};
@@ -33,14 +34,15 @@ export const choosefavoriteDroid = (payload: ChooseLikeI): FavoriteDroid => ({
   payload,
 });
 
-export type SaveCharacter = Action2<
-  ActionTypesCharacters.SAVE_CHOOSE_CHARACTER,
-  ChooseLikeI
->;
-export const saveChooseCharacter = (payload: ChooseLikeI): SaveCharacter => ({
-  type: ActionTypesCharacters.SAVE_CHOOSE_CHARACTER,
-  payload,
-});
+// TODO: in redux why it write
+// export type SaveCharacter = Action2<
+//   ActionTypesCharacters.SAVE_CHOOSE_CHARACTER,
+//   ChooseLikeI
+// >;
+// export const saveChooseCharacter = (payload: ChooseLikeI): SaveCharacter => ({
+//   type: ActionTypesCharacters.SAVE_CHOOSE_CHARACTER,
+//   payload,
+// });
 
 export type GetNewCharactersType = Action2<
   ActionTypesCharacters.ADD_NEW_CHARACTERS,
@@ -50,5 +52,14 @@ export const saveNewCharacters = (
   payload: GetAllInfoRequest,
 ): GetNewCharactersType => ({
   type: ActionTypesCharacters.ADD_NEW_CHARACTERS,
+  payload,
+});
+
+export type GetFirstPlanets = Action2<
+  ActionTypesCharacters.ADD_FIRSTS_PLANET,
+  InfoPlanets
+>;
+export const getPlanets = (payload: InfoPlanets): GetFirstPlanets => ({
+  type: ActionTypesCharacters.ADD_FIRSTS_PLANET,
   payload,
 });
