@@ -127,8 +127,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const filteredData = showFilterData();
-    setFilteredData(filteredData);
+    const startFilteredData = showFilterData();
+    setFilteredData(startFilteredData);
   }, [inputValue]);
 
   return (
