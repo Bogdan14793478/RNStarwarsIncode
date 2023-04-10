@@ -18,6 +18,7 @@ const Card = () => {
   const insets = useSafeAreaInsets();
 
   const route = useRoute<CardRouteProp>();
+
   const {name, birth_year, eye_color, height, homeworld}: CharactersI =
     route.params?.item || {};
   const title = `It's ${name}`;

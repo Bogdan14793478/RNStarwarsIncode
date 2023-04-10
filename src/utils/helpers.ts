@@ -1,4 +1,3 @@
-import {Alert} from 'react-native';
 import {PlanetI} from '../redux/actions/interface';
 
 export const workWithHasObj = (

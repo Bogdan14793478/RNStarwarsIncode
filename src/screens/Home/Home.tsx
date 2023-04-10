@@ -46,7 +46,7 @@ const Home = () => {
     nextPlanets,
   } = useAppSelector((state: RootState) => state.info);
 
-  const fetchData = async () => {
+  const fetchData = async (): Promise<void> => {
     try {
       const result = await dispatch(getFirstCharacters());
       if (result) {
@@ -102,16 +102,16 @@ const Home = () => {
     [],
   );
 
-  const loadNewCharacters = () => {
+  const loadNewCharacters = (): void => {
     const type = 'people';
     dispatch(loadNewInfo(next, getNewCharacters, type));
   };
 
-  const clearCounter = () => {
+  const clearCounter = (): void => {
     dispatch(clearFavoriteCharacters(true));
   };
 
-  const showFilterData = () => {
+  const showFilterData = (): (CharactersI | undefined)[] | undefined => {
     if (inputValue !== '') {
       const newValue = resultsCharacters.filter(item =>
         item?.name.includes(inputValue),

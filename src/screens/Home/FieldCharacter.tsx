@@ -23,6 +23,7 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({item, onPress}) => {
   const chooseLikefavoriteMans = favoriteMans.includes(item.name);
   const chooseLikefavoriteWoman = favoriteWoman.includes(item.name);
   const chooseLikefavoriteDroid = favoriteDroid.includes(item.name);
+
   const consistLike = () => {
     if (chooseLikefavoriteMans) {
       return true;
@@ -36,11 +37,11 @@ const FieldCharacter: React.FC<FieldCharacterProps> = ({item, onPress}) => {
     return false;
   };
 
-  const changeLike = () => {
+  const changeLike = (): void => {
     dispatch(choosefavoriteDroid({name: item.name, gender: item.gender}));
   };
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     onPress(item);
   };
 
