@@ -27,8 +27,6 @@ import {loadNewInfo} from '../../utils/helpers';
 import {Loader} from '../../components/Loader/Loader';
 import {clearFavoriteCharacters} from '../../redux/actions/typeActionCharackters';
 
-export type ParamAuthType = 'Phone number' | 'Email';
-
 const Home = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [filteredData, setFilteredData] = useState<
