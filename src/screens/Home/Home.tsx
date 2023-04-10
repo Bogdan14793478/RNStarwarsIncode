@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
-import styles from './styles';
 import {
   getFirstCharacters,
   getFirstPlanets,
@@ -18,14 +16,17 @@ import {
   getNewPlanets,
 } from '../../api/charackters';
 import {useNavigation} from '@react-navigation/native';
-
 import {useDispatch} from 'react-redux';
+
 import {useAppSelector} from '../../hooks';
 import {CharactersI, RootState} from '../../redux/actions/interface';
 import FieldCharacter from './FieldCharacter';
 import {loadNewInfo} from '../../utils/helpers';
 import {Loader} from '../../components/Loader/Loader';
 import {clearFavoriteCharacters} from '../../redux/actions/typeActionCharackters';
+import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
+
+import styles from './styles';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState<string>('');

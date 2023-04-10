@@ -1,12 +1,12 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {useRoute, RouteProp} from '@react-navigation/native';
-
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Header} from '../../components/Header/Header';
 
-import styles from './styles';
 import {CharactersI} from '../../redux/actions/interface';
+
+import styles from './styles';
 
 type RootStackParamList = {
   Card: {item: CharactersI};

@@ -1,12 +1,13 @@
 import React, {memo} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {CharactersI, RootState} from '../../redux/actions/interface';
+import {useDispatch} from 'react-redux';
 import {choosefavoriteDroid} from '../../redux/actions/typeActionCharackters';
+
+import {useAppSelector} from '../../hooks';
 import {EmptyLike, FullLike} from '../../assets/images/light';
+import {CharactersI, RootState} from '../../redux/actions/interface';
 
 import styles from './styles';
-import {useAppSelector} from '../../hooks';
-import {useDispatch} from 'react-redux';
 
 interface FieldCharacterProps {
   item: CharactersI;
