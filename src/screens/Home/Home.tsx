@@ -27,6 +27,7 @@ import {clearFavoriteCharacters} from '../../redux/actions/typeActionCharackters
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
 
 import styles from './styles';
+import {useFilterData} from '../../hooks/filterData';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -111,21 +112,13 @@ const Home = () => {
     dispatch(clearFavoriteCharacters(true));
   };
 
-  const showFilterData = (): (CharactersI | undefined)[] | undefined => {
-    if (inputValue !== '') {
-      const newValue = resultsCharacters.filter(item =>
-        item?.name.includes(inputValue),
-      );
-      return newValue;
-    }
-    if (inputValue === '') {
-      return [];
-    }
-  };
+  const showFilterData = useFilterData({
+    resultsCharacters: resultsCharacters ?? [],
+    inputValue,
+  });
 
   useEffect(() => {
-    const startFilteredData = showFilterData();
-    setFilteredData(startFilteredData);
+    setFilteredData(showFilterData);
   }, [inputValue]);
 
   return (
