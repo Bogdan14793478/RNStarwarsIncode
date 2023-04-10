@@ -113,7 +113,7 @@ const Home = () => {
   };
 
   const showFilterData = useFilterData({
-    resultsCharacters: resultsCharacters ?? [],
+    resultsCharacters: resultsCharacters || [],
     inputValue,
   });
 
@@ -156,7 +156,11 @@ const Home = () => {
       {resultsCharacters && (
         <View>
           <FlatList
-            data={filteredData.length > 0 ? filteredData : resultsCharacters}
+            data={
+              filteredData && filteredData.length > 0
+                ? filteredData
+                : resultsCharacters
+            }
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             getItemLayout={getItemLayout}
