@@ -34,7 +34,6 @@ const Home = () => {
     next,
     nextPlanets,
   } = useAppSelector((state: RootState) => state.info);
-  console.log('HomeRender');
 
   const fetchData = async () => {
     try {
@@ -53,7 +52,6 @@ const Home = () => {
     }
     function loadNew() {
       const type = 'planet';
-      console.log(nextPlanets, 'nextPlanets');
       dispatch(loadNewInfo(nextPlanets, getNewPlanets, type));
     }
 
