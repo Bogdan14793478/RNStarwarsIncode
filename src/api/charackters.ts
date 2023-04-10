@@ -7,7 +7,7 @@ import {
 } from '../redux/actions/typeActionCharackters';
 import {GetAllInfoRequest, InfoPlanets} from '../redux/actions/interface';
 
-export function getFirstCharackters() {
+export function getFirstCharacters() {
   return async (dispatch: any) => {
     try {
       const {data} = await axiosInstance.get<GetAllInfoRequest>('/people');

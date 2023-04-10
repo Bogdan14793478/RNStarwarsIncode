@@ -33,7 +33,6 @@ const Card = () => {
         </Text>
         <Text style={styles.cardText}>General info:</Text>
         <Text style={styles.cardText}>Home world: {homeworld}</Text>
-        {/* show , starship, film */}
       </View>
     </View>
   );

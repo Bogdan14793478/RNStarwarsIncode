@@ -1,18 +1,11 @@
 import React, {useCallback, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
 import styles from './styles';
 import {
-  getFirstCharackters,
+  getFirstCharacters,
   getFirstPlanets,
   getNewCharacters,
   getNewPlanets,
@@ -44,7 +37,7 @@ const Home = () => {
 
   const fetchData = async () => {
     try {
-      const result = await dispatch(getFirstCharackters());
+      const result = await dispatch(getFirstCharacters());
       if (result) {
         await dispatch(getFirstPlanets());
       }
@@ -65,8 +58,8 @@ const Home = () => {
     const isAllCharactersWithPlanet = () => {
       for (let i = 0; i < resultsCharacters.length + 1; i++) {
         if (
-          resultsCharacters[i]?.homeworld.length !== undefined &&
-          resultsCharacters[i]?.homeworld.length > 29
+          resultsCharacters[i] !== undefined &&
+          resultsCharacters[i].homeworld.length > 29
         ) {
           setTimeout(loadNew, 2000);
         }
@@ -79,12 +72,12 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const goToInfoCharackter = useCallback((item: CharactersI) => {
+  const goToInfoCharacter = useCallback((item: CharactersI) => {
     navigation.navigate('Card', {item});
   }, []);
 
   const renderItem = ({item}: {item: CharactersI}) => {
-    return <FieldCharacter item={item} onPress={goToInfoCharackter} />;
+    return <FieldCharacter item={item} onPress={goToInfoCharacter} />;
   };
 
   const keyExtractor = (item: CharactersI) => item.name;
@@ -139,7 +132,6 @@ const Home = () => {
             getItemLayout={getItemLayout}
             onEndReached={loadNewCharacters}
             onEndReachedThreshold={0.5}
-            contentContainerStyle={{marginBottom: 100}}
           />
         </View>
       )}
