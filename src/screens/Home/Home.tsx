@@ -151,12 +151,14 @@ const Home = () => {
         </TouchableOpacity>
       )}
 
-      <TextInput
-        placeholder="Search characters"
-        style={styles.searchInput}
-        value={inputValue}
-        onChangeText={setInputValue}
-      />
+      {resultsCharacters.length > 0 && (
+        <TextInput
+          placeholder="Search characters"
+          style={styles.searchInput}
+          value={inputValue}
+          onChangeText={setInputValue}
+        />
+      )}
 
       {resultsCharacters && (
         <View>
