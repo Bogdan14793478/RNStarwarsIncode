@@ -152,6 +152,7 @@ const Home = () => {
       )}
 
       <TextInput
+        placeholder="Search characters"
         style={styles.searchInput}
         value={inputValue}
         onChangeText={setInputValue}
