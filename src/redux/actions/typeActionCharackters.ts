@@ -15,7 +15,7 @@ export type GetCharactersType = Action2<
   ActionTypesCharacters.GET_FIRST_CHARACTERS,
   GetAllInfoRequest
 >;
-export const getFirstCharacters = (
+export const getFirstCharactersS = (
   payload: GetAllInfoRequest,
 ): GetCharactersType => ({
   type: ActionTypesCharacters.GET_FIRST_CHARACTERS,

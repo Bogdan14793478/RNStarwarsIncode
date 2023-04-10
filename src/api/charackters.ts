@@ -1,6 +1,6 @@
 import {axiosInstance} from './axios';
 import {
-  getFirstCharacters,
+  getFirstCharactersS,
   getPlanets,
   saveNewCharacters,
   saveNewPlanets,
@@ -11,7 +11,7 @@ export function getFirstCharacters() {
   return async (dispatch: any) => {
     try {
       const {data} = await axiosInstance.get<GetAllInfoRequest>('/people');
-      dispatch(getFirstCharacters(data));
+      dispatch(getFirstCharactersS(data));
       return true;
     } catch (error: unknown | undefined) {
       throw new Error(String(error));
