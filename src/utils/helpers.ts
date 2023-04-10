@@ -22,7 +22,6 @@ export const loadNewInfo = (next: string, func: any, type: string) => {
     }
     if (next === null && type === 'people') {
       Alert.alert('All Characters load');
-      // console.log('END Characters');
     }
   };
 };
