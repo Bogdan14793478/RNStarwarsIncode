@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -31,7 +31,9 @@ export type ParamAuthType = 'Phone number' | 'Email';
 
 const Home = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [filteredData, setFilteredData] = useState<[] | CharactersI[]>([]);
+  const [filteredData, setFilteredData] = useState<
+    (CharactersI | undefined)[] | undefined
+  >([]);
 
   console.log(inputValue, 'inputValue');
 
@@ -112,17 +114,21 @@ const Home = () => {
     dispatch(clearFavoriteCharacters(true));
   };
 
-  const showFilterData = useMemo(() => {
+  const showFilterData = () => {
     if (inputValue !== '') {
       const newValue = resultsCharacters.filter(item =>
         item?.name.includes(inputValue),
       );
-      setFilteredData(newValue);
-      console.log(newValue, 'newValue');
+      return newValue;
     }
     if (inputValue === '') {
-      setFilteredData([]);
+      return [];
     }
+  };
+
+  useEffect(() => {
+    const filteredData = showFilterData();
+    setFilteredData(filteredData);
   }, [inputValue]);
 
   return (
