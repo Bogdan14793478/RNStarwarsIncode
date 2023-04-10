@@ -120,9 +120,12 @@ const Home = () => {
           countFavorite={favoriteDroid}
         />
       </View>
-      <TouchableOpacity style={styles.clearBtn} onPress={clearCounter}>
-        <Text>Clear All Count</Text>
-      </TouchableOpacity>
+      {resultsCharacters.length > 1 && (
+        <TouchableOpacity style={styles.clearBtn} onPress={clearCounter}>
+          <Text>Clear All Count</Text>
+        </TouchableOpacity>
+      )}
+
       {resultsCharacters && (
         <View>
           <FlatList
