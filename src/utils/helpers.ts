@@ -21,7 +21,7 @@ export const loadNewInfo = (next: string, func: any, type: string) => {
       dispatch(func(number[1]));
     }
     if (next === null && type === 'people') {
-      Alert.alert('All Characters load');
+      return;
     }
   };
 };

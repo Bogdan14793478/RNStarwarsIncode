@@ -1,5 +1,12 @@
-import React, {useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
@@ -23,6 +30,11 @@ import {clearFavoriteCharacters} from '../../redux/actions/typeActionCharackters
 export type ParamAuthType = 'Phone number' | 'Email';
 
 const Home = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [filteredData, setFilteredData] = useState<[] | CharactersI[]>([]);
+
+  console.log(inputValue, 'inputValue');
+
   const insets = useSafeAreaInsets();
   const dispatch: any = useDispatch();
   const navigation = useNavigation();
@@ -100,6 +112,19 @@ const Home = () => {
     dispatch(clearFavoriteCharacters(true));
   };
 
+  const showFilterData = useMemo(() => {
+    if (inputValue !== '') {
+      const newValue = resultsCharacters.filter(item =>
+        item?.name.includes(inputValue),
+      );
+      setFilteredData(newValue);
+      console.log(newValue, 'newValue');
+    }
+    if (inputValue === '') {
+      setFilteredData([]);
+    }
+  }, [inputValue]);
+
   return (
     <View
       style={[
@@ -123,10 +148,16 @@ const Home = () => {
         </TouchableOpacity>
       )}
 
+      <TextInput
+        style={styles.searchInput}
+        value={inputValue}
+        onChangeText={setInputValue}
+      />
+
       {resultsCharacters && (
         <View>
           <FlatList
-            data={resultsCharacters}
+            data={filteredData.length > 0 ? filteredData : resultsCharacters}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             getItemLayout={getItemLayout}

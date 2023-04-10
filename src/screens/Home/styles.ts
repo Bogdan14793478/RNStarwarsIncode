@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     margin: 6,
   },
+  searchInput: {
+    margin: 3,
+    padding: 6,
+    borderBottomColor: 'blue',
+    borderWidth: 2,
+  },
 });
 
 export default styles;
