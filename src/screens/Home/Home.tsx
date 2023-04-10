@@ -52,11 +52,12 @@ const Home = () => {
     }
     function loadNew() {
       const type = 'planet';
+      console.log(nextPlanets, 'nextPlanets');
       dispatch(loadNewInfo(nextPlanets, getNewPlanets, type));
     }
 
     const isAllCharactersWithPlanet = () => {
-      for (let i = 0; i < resultsCharacters.length + 1; i++) {
+      for (let i = 0; i < resultsCharacters.length; i++) {
         if (
           resultsCharacters[i] !== undefined &&
           resultsCharacters[i].homeworld.length > 29
@@ -76,9 +77,9 @@ const Home = () => {
     navigation.navigate('Card', {item});
   }, []);
 
-  const renderItem = ({item}: {item: CharactersI}) => {
+  const renderItem = useCallback(({item}: {item: CharactersI}) => {
     return <FieldCharacter item={item} onPress={goToInfoCharacter} />;
-  };
+  }, []);
 
   const keyExtractor = (item: CharactersI) => item.name;
 
@@ -117,7 +118,7 @@ const Home = () => {
           countFavorite={favoriteDroid}
         />
       </View>
-      {resultsCharacters.length > 1 && (
+      {resultsCharacters.length > 0 && (
         <TouchableOpacity style={styles.clearBtn} onPress={clearCounter}>
           <Text>Clear All Count</Text>
         </TouchableOpacity>
