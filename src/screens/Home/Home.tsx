@@ -34,6 +34,7 @@ const Home = () => {
     next,
     nextPlanets,
   } = useAppSelector((state: RootState) => state.info);
+  console.log('HomeRender');
 
   const fetchData = async () => {
     try {

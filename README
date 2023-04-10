@@ -1,0 +1,3 @@
+Hi, your need clone this repo, write in terminal 'yarn', after write "cd ios", "pod install", ".. cd", "yarn ios" or "yarn android"
+and app work
+you need use ruby 2.7.6p219, node 14.18.1, 
