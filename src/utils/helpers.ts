@@ -1,3 +1,4 @@
+import {Alert} from 'react-native';
 import {PlanetI} from '../redux/actions/interface';
 
 export const workWithHasObj = (
@@ -17,11 +18,11 @@ export const loadNewInfo = (next: string, func: any, type: string) => {
     if (next === '') return;
     if (next !== null) {
       const number = next.split('=');
-      console.log(number, 'number next page');
       dispatch(func(number[1]));
     }
     if (next === null && type === 'people') {
-      console.log('END Characters');
+      Alert.alert('All Characters load');
+      // console.log('END Characters');
     }
   };
 };

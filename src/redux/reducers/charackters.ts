@@ -50,7 +50,6 @@ export const stateInfoReducer = (
         results: action.payload.results,
       };
     case ActionTypesCharacters.FAVORITE:
-      console.log(action.payload, 'action.payload');
       const newDroid = action.payload.name;
       // droid
       if (

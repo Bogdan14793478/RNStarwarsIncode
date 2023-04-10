@@ -14,8 +14,6 @@ interface FieldCharacterProps {
 }
 
 const FieldCharacter: React.FC<FieldCharacterProps> = ({item, onPress}) => {
-  console.log('FieldCharacter reload');
-
   const {favoriteMans, favoriteWoman, favoriteDroid} = useAppSelector(
     (state: RootState) => state.info,
   );

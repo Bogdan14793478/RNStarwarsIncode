@@ -1,5 +1,12 @@
 import React, {useCallback, useEffect} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Droid, Girl, LittleDroid, Man} from '../../assets/images/light/index';
@@ -34,9 +41,6 @@ const Home = () => {
     next,
     nextPlanets,
   } = useAppSelector((state: RootState) => state.info);
-
-  console.log('results Home', resultsCharacters);
-  console.log('nextPlanets Home', nextPlanets);
 
   const fetchData = async () => {
     try {
@@ -135,6 +139,7 @@ const Home = () => {
             getItemLayout={getItemLayout}
             onEndReached={loadNewCharacters}
             onEndReachedThreshold={0.5}
+            contentContainerStyle={{marginBottom: 100}}
           />
         </View>
       )}
