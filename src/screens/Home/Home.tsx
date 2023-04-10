@@ -35,8 +35,6 @@ const Home = () => {
     (CharactersI | undefined)[] | undefined
   >([]);
 
-  console.log(inputValue, 'inputValue');
-
   const insets = useSafeAreaInsets();
   const dispatch: any = useDispatch();
   const navigation = useNavigation();
